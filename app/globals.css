@@ -2,10 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #__next {
-  height: 100%;
+:root {
+  --font-cormorant-garamond: "Cormorant Garamond", serif;
+  --font-dm-sans: "DM Sans", sans-serif;
 }
 
 body {
-  @apply bg-slate-50 text-slate-900;
+  font-family: var(--font-dm-sans);
+}
+
+.font-serif {
+  font-family: var(--font-cormorant-garamond);
+}
+
+@layer base {
+  * {
+    @apply border-aura-light-border;
+  }
+  .dark * {
+    @apply border-aura-dark-border;
+  }
+}
+
+@layer utilities {
+  .accent-gold {
+    @apply border-l-3 border-l-aura-gold;
+  }
+  .accent-teal {
+    @apply border-l-3 border-l-aura-teal;
+  }
+  .accent-blue {
+    @apply border-l-3 border-l-aura-blue;
+  }
+  .accent-rose {
+    @apply border-l-3 border-l-aura-rose;
+  }
+}
+
+.border-l-3 {
+  border-left-width: 3px;
 }

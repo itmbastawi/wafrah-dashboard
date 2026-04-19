@@ -1,77 +1,152 @@
-import { HealthScore, TurnoverMetric, StockoutMetric, DeadStockMetric, OverstockMetric, KPIData, AlertItem } from '../types/inventory';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-
-export async function fetchHealthScores(date?: string): Promise<HealthScore[]> {
-  const url = date ? `${API_BASE}/api/v1/health-score?date=${date}` : `${API_BASE}/api/v1/health-score`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error('Failed to fetch health scores');
-  return res.json();
+export interface KpiData {
+  totalRevenue: number;
+  revenueGrowth: number;
+  activeUsers: number;
+  userGrowth: number;
+  conversionRate: number;
+  conversionGrowth: number;
+  avgOrderValue: number;
+  aovGrowth: number;
 }
 
-export async function fetchKPISummary(date?: string): Promise<KPIData> {
-  const url = date ? `${API_BASE}/api/v1/kpi/summary?date=${date}` : `${API_BASE}/api/v1/kpi/summary`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error('Failed to fetch KPI summary');
-  return res.json();
+export interface RevenueData {
+  labels: string[];
+  data: number[];
 }
 
-export async function fetchTurnoverMetrics(date?: string): Promise<TurnoverMetric[]> {
-  const url = `${API_BASE}/api/v1/turnover?date=${date}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error('Failed to fetch turnover');
-  return res.json();
+export interface SegmentData {
+  name: string;
+  value: number;
+  color: string;
 }
 
-export async function fetchAlerts(threshold: number = 60): Promise<AlertItem[]> {
-  const res = await fetch(`${API_BASE}/api/v1/alerts?threshold=${threshold}`);
-  if (!res.ok) throw new Error('Failed to fetch alerts');
-  return res.json();
+export interface ChannelData {
+  name: string;
+  value: number;
+  percentage: number;
 }
 
-export const mockHealthScores: HealthScore[] = [
-  {
-    product_key: 1,
-    product_name: 'Wireless Headphones',
-    location_key: 101,
-    location_name: 'Warehouse A',
-    snapshot_date: '2024-04-19',
-    availability_score: 85,
-    turnover_score: 78,
-    freshness_score: 92,
-    balance_score: 88,
-    value_score: 95,
-    health_score: 87.6,
-    health_status: 'HEALTHY',
-    quantity_available: 450,
-    quantity_on_hand: 500,
-    days_since_last_movement: 12,
-  },
-  {
-    product_key: 2,
-    product_name: 'Gaming Mouse',
-    location_key: 101,
-    location_name: 'Warehouse A',
-    snapshot_date: '2024-04-19',
-    availability_score: 25,
-    turnover_score: 45,
-    freshness_score: 30,
-    balance_score: 40,
-    value_score: 50,
-    health_score: 38.0,
-    health_status: 'CRITICAL',
-    quantity_available: 5,
-    quantity_on_hand: 8,
-    days_since_last_movement: 45,
-  },
-];
+export interface CampaignData {
+  id: string;
+  name: string;
+  status: "Live" | "Watch" | "Paused";
+  impressions: number;
+  clicks: number;
+  ctr: number;
+  conversions: number;
+  spend: number;
+  revenue: number;
+}
 
-export const mockKPISummary: KPIData = {
-  avg_health_score: 72.5,
-  critical_items: 12,
-  avg_turnover: 6.8,
-  stockout_rate: 3.2,
-  dead_stock_pct: 8.5,
-  overstock_pct: 15.3,
-  date: '2024-04-19',
-};
+export async function fetchKpis(): Promise<KpiData> {
+  return {
+    totalRevenue: 2847500,
+    revenueGrowth: 12.5,
+    activeUsers: 45892,
+    userGrowth: 8.3,
+    conversionRate: 3.24,
+    conversionGrowth: -2.1,
+    avgOrderValue: 892,
+    aovGrowth: 5.7,
+  };
+}
+
+export async function fetchRevenue(range: string = "30d"): Promise<RevenueData> {
+  const ranges: Record<string, number> = {
+    "30d": 30,
+    "90d": 90,
+    "1Y": 365,
+    All: 730,
+  };
+
+  const days = ranges[range] || 30;
+  const labels: string[] = [];
+  const data: number[] = [];
+
+  for (let i = days - 1; i >= 0; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    labels.push(date.toLocaleDateString("en-US", { month: "short", day: "numeric" }));
+    data.push(Math.floor(80000 + Math.random() * 40000 + (days - i) * 100));
+  }
+
+  return { labels, data };
+}
+
+export async function fetchSegments(): Promise<SegmentData[]> {
+  return [
+    { name: "Enterprise", value: 45, color: "#B8924A" },
+    { name: "Mid-Market", value: 35, color: "#1D9E75" },
+    { name: "SMB", value: 20, color: "#D4537E" },
+  ];
+}
+
+export async function fetchChannels(): Promise<ChannelData[]> {
+  return [
+    { name: "Organic Search", value: 1250000, percentage: 44 },
+    { name: "Paid Search", value: 680000, percentage: 24 },
+    { name: "Direct", value: 425000, percentage: 15 },
+    { name: "Social", value: 285000, percentage: 10 },
+    { name: "Email", value: 202500, percentage: 7 },
+  ];
+}
+
+export async function fetchCampaigns(): Promise<CampaignData[]> {
+  return [
+    {
+      id: "1",
+      name: "Summer Luxury Collection",
+      status: "Live",
+      impressions: 2450000,
+      clicks: 122500,
+      ctr: 4.98,
+      conversions: 8575,
+      spend: 45000,
+      revenue: 342500,
+    },
+    {
+      id: "2",
+      name: "Premium Membership Drive",
+      status: "Live",
+      impressions: 1820000,
+      clicks: 91000,
+      ctr: 5.0,
+      conversions: 6370,
+      spend: 32000,
+      revenue: 254800,
+    },
+    {
+      id: "3",
+      name: "Holiday Preview 2024",
+      status: "Watch",
+      impressions: 980000,
+      clicks: 49000,
+      ctr: 5.0,
+      conversions: 2940,
+      spend: 18000,
+      revenue: 126000,
+    },
+    {
+      id: "4",
+      name: "Brand Awareness Q3",
+      status: "Paused",
+      impressions: 3200000,
+      clicks: 128000,
+      ctr: 4.0,
+      conversions: 5120,
+      spend: 65000,
+      revenue: 204800,
+    },
+    {
+      id: "5",
+      name: "VIP Customer Retention",
+      status: "Live",
+      impressions: 450000,
+      clicks: 36000,
+      ctr: 8.0,
+      conversions: 3960,
+      spend: 12000,
+      revenue: 158400,
+    },
+  ];
+}
