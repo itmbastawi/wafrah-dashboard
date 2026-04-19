@@ -10,7 +10,7 @@ export interface HealthScore {
   balance_score: number;
   value_score: number;
   health_score: number;
-  health_status: 'HEALTHY' | 'AT_RISK' | 'CRITICAL';
+  health_status: 'HEALTHY' | 'WARNING' | 'CRITICAL';
   quantity_available: number;
   quantity_on_hand: number;
   days_since_last_movement: number;
@@ -19,44 +19,29 @@ export interface HealthScore {
 export interface TurnoverMetric {
   product_key: number;
   product_name: string;
-  total_cogs: number;
-  avg_inventory_value: number;
-  turnover_ratio: number;
-  days_sales_of_inventory: number;
-  turnover_status: 'EXCELLENT' | 'GOOD' | 'FAIR' | 'POOR';
-  calculation_period: string;
-  as_of_date: string;
+  turnover_rate: number;
+  period: string;
 }
 
 export interface StockoutMetric {
   product_key: number;
   product_name: string;
-  stockout_rate_pct: number;
-  near_stockout_rate_pct: number;
-  demand_stockout_rate_pct: number;
-  service_level_pct: number;
-  total_days: number;
   stockout_days: number;
-  stockout_severity: 'CRITICAL' | 'HIGH' | 'MODERATE' | 'LOW';
-  period_start: string;
-  period_end: string;
+  period: string;
 }
 
 export interface DeadStockMetric {
-  snapshot_date: string;
-  dead_sku_count: number;
-  dead_stock_value: number;
-  total_inventory_value: number;
-  dead_stock_pct: number;
-  health_grade: 'A' | 'B' | 'C' | 'D';
+  product_key: number;
+  product_name: string;
+  days_without_movement: number;
+  quantity_on_hand: number;
 }
 
 export interface OverstockMetric {
-  snapshot_date: string;
-  total_overstock_value: number;
-  total_inventory_value: number;
-  overstock_pct: number;
-  overstock_sku_count: number;
+  product_key: number;
+  product_name: string;
+  overstock_ratio: number;
+  excess_quantity: number;
 }
 
 export interface KPIData {
