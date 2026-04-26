@@ -12,7 +12,7 @@ interface KPICardProps {
   icon: React.ReactNode;
   trend?: 'up' | 'down' | 'neutral';
   trendValue?: string;
-  glow?: 'emerald' | 'amber' | 'rose' | 'cyan' | 'violet' | 'none';
+  border?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'none';
   accentColor?: string;
 }
 
@@ -24,19 +24,19 @@ export function KPICard({
   icon,
   trend = 'neutral',
   trendValue,
-  glow = 'none',
-  accentColor = 'text-accent-cyan',
+  border = 'none',
+  accentColor = 'text-primary',
 }: KPICardProps) {
   const trendConfig = {
     up: {
       icon: <TrendingUp className="w-3.5 h-3.5" />,
-      color: 'text-accent-emerald',
-      bg: 'bg-accent-emerald/10',
+      color: 'text-success',
+      bg: 'bg-success/10',
     },
     down: {
       icon: <TrendingDown className="w-3.5 h-3.5" />,
-      color: 'text-accent-rose',
-      bg: 'bg-accent-rose/10',
+      color: 'text-danger',
+      bg: 'bg-danger/10',
     },
     neutral: {
       icon: <Minus className="w-3.5 h-3.5" />,
@@ -48,7 +48,7 @@ export function KPICard({
   const t = trendConfig[trend];
 
   return (
-    <Card glow={glow} id={id}>
+    <Card border={border} id={id}>
       <div className="flex items-start justify-between mb-4">
         <div className={`p-2.5 rounded-xl bg-surface-hover ${accentColor}`}>
           {icon}

@@ -229,7 +229,7 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <RefreshCw className="w-8 h-8 text-accent-cyan animate-spin" />
+          <RefreshCw className="w-8 h-8 text-primary animate-spin" />
           <p className="text-text-secondary text-sm font-medium">
             Loading dashboard…
           </p>
@@ -250,8 +250,8 @@ export default function DashboardPage() {
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 rounded-xl bg-accent-cyan/10">
-                <Warehouse className="w-6 h-6 text-accent-cyan" />
+              <div className="p-2 rounded-xl bg-primary-light">
+                <Warehouse className="w-6 h-6 text-primary" />
               </div>
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight gradient-text">
                 Inventory Health
@@ -270,7 +270,7 @@ export default function DashboardPage() {
 
       {/* ── Hero: Overall Health Gauge + Status Summary ── */}
       <section className="mb-10 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-        <Card glow="cyan" className="flex flex-col lg:flex-row items-center gap-8 p-8">
+        <Card border="primary" className="flex flex-col lg:flex-row items-center gap-8 p-8">
           <div className="relative flex-shrink-0">
             <HealthGauge
               id="overall-health-gauge"
@@ -283,12 +283,12 @@ export default function DashboardPage() {
 
           <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
             {/* Healthy */}
-            <div className="flex items-center gap-4 p-4 rounded-xl bg-accent-emerald/5 border border-accent-emerald/10">
-              <div className="p-3 rounded-xl bg-accent-emerald/10">
-                <Activity className="w-6 h-6 text-accent-emerald" />
+            <div className="flex items-center gap-4 p-4 rounded-xl bg-success/5 border border-success/10">
+              <div className="p-3 rounded-xl bg-success/10">
+                <Activity className="w-6 h-6 text-success" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-accent-emerald">
+                <p className="text-2xl font-bold text-success">
                   {healthyCount}
                 </p>
                 <p className="text-text-secondary text-xs uppercase tracking-wider font-medium">
@@ -298,12 +298,12 @@ export default function DashboardPage() {
             </div>
 
             {/* Warning */}
-            <div className="flex items-center gap-4 p-4 rounded-xl bg-accent-amber/5 border border-accent-amber/10">
-              <div className="p-3 rounded-xl bg-accent-amber/10">
-                <AlertTriangle className="w-6 h-6 text-accent-amber" />
+            <div className="flex items-center gap-4 p-4 rounded-xl bg-warning/5 border border-warning/10">
+              <div className="p-3 rounded-xl bg-warning/10">
+                <AlertTriangle className="w-6 h-6 text-warning" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-accent-amber">
+                <p className="text-2xl font-bold text-warning">
                   {warningCount}
                 </p>
                 <p className="text-text-secondary text-xs uppercase tracking-wider font-medium">
@@ -313,12 +313,12 @@ export default function DashboardPage() {
             </div>
 
             {/* Critical */}
-            <div className="flex items-center gap-4 p-4 rounded-xl bg-accent-rose/5 border border-accent-rose/10">
-              <div className="p-3 rounded-xl bg-accent-rose/10">
-                <ShieldAlert className="w-6 h-6 text-accent-rose" />
+            <div className="flex items-center gap-4 p-4 rounded-xl bg-danger/5 border border-danger/10">
+              <div className="p-3 rounded-xl bg-danger/10">
+                <ShieldAlert className="w-6 h-6 text-danger" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-accent-rose">
+                <p className="text-2xl font-bold text-danger">
                   {criticalCount}
                 </p>
                 <p className="text-text-secondary text-xs uppercase tracking-wider font-medium">
@@ -339,8 +339,8 @@ export default function DashboardPage() {
           icon={<Activity className="w-5 h-5" />}
           trend="up"
           trendValue="+2.3%"
-          glow="emerald"
-          accentColor="text-accent-emerald"
+          border="success"
+          accentColor="text-success"
         />
         <KPICard
           id="kpi-critical-items"
@@ -349,8 +349,8 @@ export default function DashboardPage() {
           icon={<ShieldAlert className="w-5 h-5" />}
           trend="down"
           trendValue="-3"
-          glow="rose"
-          accentColor="text-accent-rose"
+          border="danger"
+          accentColor="text-danger"
         />
         <KPICard
           id="kpi-turnover"
@@ -359,8 +359,8 @@ export default function DashboardPage() {
           icon={<RefreshCw className="w-5 h-5" />}
           trend="up"
           trendValue="+0.4"
-          glow="cyan"
-          accentColor="text-accent-cyan"
+          border="primary"
+          accentColor="text-primary"
         />
         <KPICard
           id="kpi-stockout"
@@ -369,8 +369,8 @@ export default function DashboardPage() {
           icon={<Package className="w-5 h-5" />}
           trend="down"
           trendValue="-0.8%"
-          glow="amber"
-          accentColor="text-accent-amber"
+          border="warning"
+          accentColor="text-warning"
         />
         <KPICard
           id="kpi-dead-stock"
@@ -379,8 +379,8 @@ export default function DashboardPage() {
           icon={<Box className="w-5 h-5" />}
           trend="down"
           trendValue="-1.2%"
-          glow="violet"
-          accentColor="text-accent-violet"
+          border="info"
+          accentColor="text-info"
         />
         <KPICard
           id="kpi-overstock"
@@ -389,8 +389,8 @@ export default function DashboardPage() {
           icon={<ArrowDownRight className="w-5 h-5" />}
           trend="up"
           trendValue="+2.1%"
-          glow="amber"
-          accentColor="text-accent-amber"
+          border="warning"
+          accentColor="text-warning"
           subtitle="Above optimal"
         />
       </section>
@@ -401,7 +401,7 @@ export default function DashboardPage() {
         style={{ animationDelay: '0.2s' }}
       >
         {/* Radar Chart */}
-        <Card glow="violet" id="chart-radar-section">
+        <Card border="info" id="chart-radar-section">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-lg font-semibold text-text-primary">
@@ -414,7 +414,7 @@ export default function DashboardPage() {
             {/* Product selector */}
             <select
               id="product-selector"
-              className="bg-surface-hover border border-border-glass rounded-lg px-3 py-1.5 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent-violet/30 cursor-pointer"
+              className="bg-surface-elevated border border-border-default rounded-lg px-3 py-1.5 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-info/30 cursor-pointer"
               value={selectedProduct?.product_key ?? ''}
               onChange={(e) => {
                 const found = healthScores.find(
@@ -436,7 +436,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* Bar Chart */}
-        <Card glow="emerald" id="chart-bar-section">
+        <Card border="success" id="chart-bar-section">
           <div className="mb-6">
             <h2 className="text-lg font-semibold text-text-primary">
               Product Comparison
@@ -457,11 +457,11 @@ export default function DashboardPage() {
         className="mb-10 animate-fade-in-up"
         style={{ animationDelay: '0.3s' }}
       >
-        <Card glow="cyan" id="chart-trend-section">
+        <Card border="primary" id="chart-trend-section">
           <div className="flex items-center justify-between mb-6">
             <div>
               <div className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-accent-cyan" />
+                <TrendingUp className="w-5 h-5 text-primary" />
                 <h2 className="text-lg font-semibold text-text-primary">
                   Health Score Trend
                 </h2>
@@ -479,13 +479,13 @@ export default function DashboardPage() {
       {/* ── Alerts Table ── */}
       <section
         className="mb-10 animate-fade-in-up"
-        style={{ animationDelay: '0.4s' }}
+        style={{ animationDelay: '0.35s' }}
       >
-        <Card glow="rose" id="alerts-section">
+        <Card border="danger" id="alerts-section">
           <div className="flex items-center justify-between mb-6">
             <div>
               <div className="flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5 text-accent-rose" />
+                <AlertTriangle className="w-5 h-5 text-danger" />
                 <h2 className="text-lg font-semibold text-text-primary">
                   Active Alerts
                 </h2>
@@ -494,7 +494,7 @@ export default function DashboardPage() {
                 Items requiring immediate attention
               </p>
             </div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-accent-rose/10 text-accent-rose">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-danger/10 text-danger">
               {alerts.length} alert{alerts.length !== 1 ? 's' : ''}
             </span>
           </div>

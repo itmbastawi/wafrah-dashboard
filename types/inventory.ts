@@ -62,3 +62,16 @@ export interface AlertItem {
   severity: 'critical' | 'warning' | 'info';
   metric_type: string;
 }
+
+export interface DemandForecast {
+  product_key: number;
+  product_name: string;
+  current_stock: number;
+  predicted_demand: number;
+  period_days: number;
+  weekly_breakdown: { week: string; demand: number }[];
+  confidence_score: number;
+  trend: 'increasing' | 'decreasing' | 'stable';
+  recommendation: 'reorder' | 'reduce' | 'maintain';
+  risk_level: 'high' | 'medium' | 'low';
+}

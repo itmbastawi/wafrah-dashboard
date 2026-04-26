@@ -11,19 +11,19 @@ export function StatusBadge({ status }: StatusBadgeProps) {
 
   const config: Record<string, { bg: string; text: string; dot: string }> = {
     HEALTHY: {
-      bg: 'bg-accent-emerald/10',
-      text: 'text-accent-emerald',
-      dot: 'bg-accent-emerald',
+      bg: 'bg-success/10',
+      text: 'text-success',
+      dot: 'bg-success',
     },
     WARNING: {
-      bg: 'bg-accent-amber/10',
-      text: 'text-accent-amber',
-      dot: 'bg-accent-amber',
+      bg: 'bg-warning/10',
+      text: 'text-warning',
+      dot: 'bg-warning',
     },
     CRITICAL: {
-      bg: 'bg-accent-rose/10',
-      text: 'text-accent-rose',
-      dot: 'bg-accent-rose',
+      bg: 'bg-danger/10',
+      text: 'text-danger',
+      dot: 'bg-danger',
     },
   };
 

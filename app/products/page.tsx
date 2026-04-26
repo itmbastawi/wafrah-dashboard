@@ -14,16 +14,16 @@ import { ProductRadar } from '../components/charts/product-radar';
 
 /* ── helpers ── */
 function scoreColor(s: number) {
-  if (s >= 75) return 'text-accent-emerald';
-  if (s >= 50) return 'text-accent-amber';
-  return 'text-accent-rose';
+  if (s >= 75) return 'text-success';
+  if (s >= 50) return 'text-warning';
+  return 'text-danger';
 }
 
 function ScoreBar({ value, color }: { value: number; color: string }) {
-  const bg = color === 'text-accent-emerald' ? 'bg-accent-emerald'
-    : color === 'text-accent-amber' ? 'bg-accent-amber' : 'bg-accent-rose';
+  const bg = color === 'text-success' ? 'bg-success'
+    : color === 'text-warning' ? 'bg-warning' : 'bg-danger';
   return (
-    <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
+    <div className="w-full h-1.5 rounded-full bg-gray-100 overflow-hidden">
       <div className={`h-full rounded-full ${bg} transition-all duration-700`} style={{ width: `${value}%` }} />
     </div>
   );
@@ -32,11 +32,11 @@ function ScoreBar({ value, color }: { value: number; color: string }) {
 function StockBar({ onHand, max, reorder }: { onHand: number; max: number; reorder: number }) {
   const pct = Math.min((onHand / max) * 100, 100);
   const reorderPct = (reorder / max) * 100;
-  const fill = pct <= reorderPct ? 'bg-accent-rose' : pct <= 50 ? 'bg-accent-amber' : 'bg-accent-emerald';
+  const fill = pct <= reorderPct ? 'bg-danger' : pct <= 50 ? 'bg-warning' : 'bg-success';
   return (
-    <div className="relative w-full h-2 rounded-full bg-white/5 overflow-hidden">
+    <div className="relative w-full h-2 rounded-full bg-gray-100 overflow-hidden">
       <div className={`h-full rounded-full ${fill} transition-all duration-700`} style={{ width: `${pct}%` }} />
-      <div className="absolute top-0 bottom-0 w-0.5 bg-white/30" style={{ left: `${reorderPct}%` }} />
+      <div className="absolute top-0 bottom-0 w-0.5 bg-gray-300" style={{ left: `${reorderPct}%` }} />
     </div>
   );
 }
@@ -45,8 +45,8 @@ function StockBar({ onHand, max, reorder }: { onHand: number; max: number; reord
 function SortIcon({ field, active, dir }: { field: string; active: string; dir: SortDir }) {
   if (field !== active) return <ArrowUpDown className="w-3.5 h-3.5 text-text-muted" />;
   return dir === 'asc'
-    ? <ChevronUp className="w-3.5 h-3.5 text-accent-cyan" />
-    : <ChevronDown className="w-3.5 h-3.5 text-accent-cyan" />;
+    ? <ChevronUp className="w-3.5 h-3.5 text-primary" />
+    : <ChevronDown className="w-3.5 h-3.5 text-primary" />;
 }
 
 /* ── Product Detail Drawer ── */
@@ -55,9 +55,9 @@ function ProductDrawer({ product, onClose }: { product: Product; onClose: () => 
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/40" />
       <div
-        className="relative glass-card glow-cyan w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 animate-fade-in-up"
+        className="relative modern-card w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 animate-fade-in-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* header */}
@@ -68,14 +68,14 @@ function ProductDrawer({ product, onClose }: { product: Product; onClose: () => 
           </div>
           <div className="flex items-center gap-3">
             <StatusBadge status={product.health_status} />
-            <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-white/5 text-text-muted hover:text-text-primary transition-colors">
+            <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-gray-100 text-text-muted hover:text-text-primary transition-colors">
               <X className="w-5 h-5" />
             </button>
           </div>
         </div>
 
         {/* health score big */}
-        <div className="flex items-center gap-6 mb-6 p-4 rounded-xl bg-white/3 border border-border-glass">
+        <div className="flex items-center gap-6 mb-6 p-4 rounded-xl bg-surface-elevated border border-border-default">
           <div className="text-center">
             <p className={`text-4xl font-bold ${col}`}>{product.health_score.toFixed(1)}</p>
             <p className="text-text-muted text-xs mt-1 uppercase tracking-wider">Health Score</p>
@@ -105,7 +105,7 @@ function ProductDrawer({ product, onClose }: { product: Product; onClose: () => 
         </div>
 
         {/* stock level */}
-        <div className="mb-6 p-4 rounded-xl bg-white/3 border border-border-glass">
+        <div className="mb-6 p-4 rounded-xl bg-surface-elevated border border-border-default">
           <div className="flex justify-between items-center mb-2">
             <span className="text-text-secondary text-sm font-medium">Stock Level</span>
             <span className="text-text-muted text-xs">{product.quantity_on_hand} / {product.max_stock} units</span>
@@ -113,7 +113,7 @@ function ProductDrawer({ product, onClose }: { product: Product; onClose: () => 
           <StockBar onHand={product.quantity_on_hand} max={product.max_stock} reorder={product.reorder_point} />
           <div className="flex justify-between mt-1.5">
             <span className="text-text-muted text-xs">0</span>
-            <span className="text-accent-amber text-xs">Reorder: {product.reorder_point}</span>
+            <span className="text-warning text-xs">Reorder: {product.reorder_point}</span>
             <span className="text-text-muted text-xs">Max: {product.max_stock}</span>
           </div>
         </div>
@@ -128,7 +128,7 @@ function ProductDrawer({ product, onClose }: { product: Product; onClose: () => 
             { label: 'Days Since Move', value: `${product.days_since_movement}d` },
             { label: 'Location', value: product.location },
           ].map((item) => (
-            <div key={item.label} className="p-3 rounded-xl bg-white/3 border border-border-glass">
+            <div key={item.label} className="p-3 rounded-xl bg-surface-elevated border border-border-default">
               <p className="text-text-muted text-xs mb-1">{item.label}</p>
               <p className="text-text-primary text-sm font-semibold">{item.value}</p>
             </div>
@@ -138,7 +138,7 @@ function ProductDrawer({ product, onClose }: { product: Product; onClose: () => 
         {/* tags */}
         <div className="mt-4 flex flex-wrap gap-2">
           {product.tags.map((t) => (
-            <span key={t} className="px-2.5 py-1 rounded-full text-xs bg-accent-violet/10 text-accent-violet border border-accent-violet/15">
+            <span key={t} className="px-2.5 py-1 rounded-full text-xs bg-primary-light text-primary border border-primary/15">
               {t}
             </span>
           ))}
@@ -153,12 +153,12 @@ function ProductGridCard({ product, onClick }: { product: Product; onClick: () =
   const col = scoreColor(product.health_score);
   return (
     <div
-      className="glass-card p-5 cursor-pointer group hover:border-accent-cyan/30 transition-all duration-300"
+      className="modern-card p-5 cursor-pointer group hover:border-primary/30 transition-all duration-300"
       onClick={onClick}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0 mr-3">
-          <p className="text-text-primary font-semibold text-sm truncate group-hover:text-accent-cyan transition-colors">{product.name}</p>
+          <p className="text-text-primary font-semibold text-sm truncate group-hover:text-primary transition-colors">{product.name}</p>
           <p className="text-text-muted text-xs mt-0.5">{product.sku}</p>
         </div>
         <StatusBadge status={product.health_status} />
@@ -259,8 +259,8 @@ export default function ProductsPage() {
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 rounded-xl bg-accent-violet/10">
-                <Package className="w-6 h-6 text-accent-violet" />
+              <div className="p-2 rounded-xl bg-info/10">
+                <Package className="w-6 h-6 text-info" />
               </div>
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight gradient-text">Products</h1>
             </div>
@@ -277,12 +277,12 @@ export default function ProductsPage() {
       {/* Stats row */}
       <section className="mb-8 grid grid-cols-2 sm:grid-cols-4 gap-4 stagger-children">
         {[
-          { label: 'Total Products', value: mockProducts.length, color: 'text-accent-cyan', bg: 'bg-accent-cyan/10', border: 'border-accent-cyan/10' },
-          { label: 'Healthy', value: stats.healthy, color: 'text-accent-emerald', bg: 'bg-accent-emerald/10', border: 'border-accent-emerald/10' },
-          { label: 'Warning', value: stats.warning, color: 'text-accent-amber', bg: 'bg-accent-amber/10', border: 'border-accent-amber/10' },
-          { label: 'Critical', value: stats.critical, color: 'text-accent-rose', bg: 'bg-accent-rose/10', border: 'border-accent-rose/10' },
+          { label: 'Total Products', value: mockProducts.length, color: 'text-primary', bg: 'bg-primary-light', border: 'border-primary/10' },
+          { label: 'Healthy', value: stats.healthy, color: 'text-success', bg: 'bg-success/10', border: 'border-success/10' },
+          { label: 'Warning', value: stats.warning, color: 'text-warning', bg: 'bg-warning/10', border: 'border-warning/10' },
+          { label: 'Critical', value: stats.critical, color: 'text-danger', bg: 'bg-danger/10', border: 'border-danger/10' },
         ].map((s) => (
-          <div key={s.label} className={`glass-card p-4 flex items-center gap-4 border ${s.border}`}>
+          <div key={s.label} className={`modern-card p-4 flex items-center gap-4 border ${s.border}`}>
             <div className={`p-3 rounded-xl ${s.bg}`}>
               <BarChart2 className={`w-5 h-5 ${s.color}`} />
             </div>
@@ -295,7 +295,7 @@ export default function ProductsPage() {
       </section>
 
       {/* Toolbar */}
-      <div className="mb-6 glass-card p-4 animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+      <div className="mb-6 modern-card p-4 animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Search */}
           <div className="relative flex-1">
@@ -306,7 +306,7 @@ export default function ProductsPage() {
               placeholder="Search by name, SKU, or supplier…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 bg-white/5 border border-border-glass rounded-xl text-text-primary text-sm placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent-cyan/30 focus:border-accent-cyan/30 transition-all"
+              className="w-full pl-9 pr-4 py-2.5 bg-surface-elevated border border-border-default rounded-xl text-text-primary text-sm placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/30 transition-all"
             />
             {search && (
               <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary">
@@ -320,17 +320,17 @@ export default function ProductsPage() {
             {(['ALL', 'HEALTHY', 'WARNING', 'CRITICAL'] as FilterStatus[]).map((s) => {
               const active = statusFilter === s;
               const colors: Record<FilterStatus, string> = {
-                ALL: 'text-accent-cyan border-accent-cyan/30 bg-accent-cyan/10',
-                HEALTHY: 'text-accent-emerald border-accent-emerald/30 bg-accent-emerald/10',
-                WARNING: 'text-accent-amber border-accent-amber/30 bg-accent-amber/10',
-                CRITICAL: 'text-accent-rose border-accent-rose/30 bg-accent-rose/10',
+                ALL: 'text-primary border-primary/30 bg-primary-light',
+                HEALTHY: 'text-success border-success/30 bg-success/10',
+                WARNING: 'text-warning border-warning/30 bg-warning/10',
+                CRITICAL: 'text-danger border-danger/30 bg-danger/10',
               };
               return (
                 <button
                   key={s}
                   id={`filter-${s.toLowerCase()}`}
                   onClick={() => setStatusFilter(s)}
-                  className={`px-3 py-2 rounded-xl text-xs font-semibold border transition-all ${active ? colors[s] : 'text-text-muted border-border-glass hover:border-border-glass-hover'}`}
+                  className={`px-3 py-2 rounded-xl text-xs font-semibold border transition-all ${active ? colors[s] : 'text-text-muted border-border-default hover:border-border-hover'}`}
                 >
                   {s === 'ALL' ? 'All' : s.charAt(0) + s.slice(1).toLowerCase()}
                 </button>
@@ -342,25 +342,25 @@ export default function ProductsPage() {
           <button
             id="toggle-filters"
             onClick={() => setShowFilters((v) => !v)}
-            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm border transition-all ${showFilters ? 'text-accent-violet border-accent-violet/30 bg-accent-violet/10' : 'text-text-muted border-border-glass hover:border-border-glass-hover'}`}
+            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm border transition-all ${showFilters ? 'text-info border-info/30 bg-info/10' : 'text-text-muted border-border-default hover:border-border-hover'}`}
           >
             <SlidersHorizontal className="w-4 h-4" />
             Filters
           </button>
 
           {/* View mode */}
-          <div className="flex rounded-xl border border-border-glass overflow-hidden">
+          <div className="flex rounded-xl border border-border-default overflow-hidden">
             <button
               id="view-table"
               onClick={() => setViewMode('table')}
-              className={`px-3 py-2 transition-all ${viewMode === 'table' ? 'bg-accent-cyan/10 text-accent-cyan' : 'text-text-muted hover:text-text-primary'}`}
+              className={`px-3 py-2 transition-all ${viewMode === 'table' ? 'bg-primary-light text-primary' : 'text-text-muted hover:text-text-primary'}`}
             >
               <List className="w-4 h-4" />
             </button>
             <button
               id="view-grid"
               onClick={() => setViewMode('grid')}
-              className={`px-3 py-2 transition-all ${viewMode === 'grid' ? 'bg-accent-cyan/10 text-accent-cyan' : 'text-text-muted hover:text-text-primary'}`}
+              className={`px-3 py-2 transition-all ${viewMode === 'grid' ? 'bg-primary-light text-primary' : 'text-text-muted hover:text-text-primary'}`}
             >
               <LayoutGrid className="w-4 h-4" />
             </button>
@@ -369,14 +369,14 @@ export default function ProductsPage() {
 
         {/* Extended filters */}
         {showFilters && (
-          <div className="mt-4 pt-4 border-t border-border-glass flex flex-wrap gap-3">
+          <div className="mt-4 pt-4 border-t border-border-default flex flex-wrap gap-3">
             <div className="flex items-center gap-2">
               <Tag className="w-4 h-4 text-text-muted" />
               <select
                 id="filter-category"
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="bg-white/5 border border-border-glass rounded-lg px-3 py-1.5 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent-violet/30"
+                className="bg-surface-elevated border border-border-default rounded-lg px-3 py-1.5 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-info/30"
               >
                 {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
@@ -387,7 +387,7 @@ export default function ProductsPage() {
                 id="filter-location"
                 value={locationFilter}
                 onChange={(e) => setLocationFilter(e.target.value)}
-                className="bg-white/5 border border-border-glass rounded-lg px-3 py-1.5 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent-violet/30"
+                className="bg-surface-elevated border border-border-default rounded-lg px-3 py-1.5 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-info/30"
               >
                 {LOCATIONS.map((l) => <option key={l} value={l}>{l}</option>)}
               </select>
@@ -404,7 +404,7 @@ export default function ProductsPage() {
 
       {/* Content */}
       {filtered.length === 0 ? (
-        <div className="glass-card p-16 flex flex-col items-center text-text-muted animate-fade-in-up">
+        <div className="modern-card p-16 flex flex-col items-center text-text-muted animate-fade-in-up">
           <Package className="w-12 h-12 mb-4 opacity-40" />
           <p className="font-medium">No products match your filters</p>
           <p className="text-xs mt-1 opacity-70">Try adjusting the search or filters above</p>
@@ -417,11 +417,11 @@ export default function ProductsPage() {
         </div>
       ) : (
         <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-        <Card glow="violet" className="overflow-hidden p-0">
+        <Card border="info" className="overflow-hidden p-0">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border-glass">
+                <tr className="border-b border-border-default">
                   <th className={thCls}>
                     <button className="flex items-center gap-1.5 hover:text-text-primary transition-colors" onClick={() => handleSort('name')}>
                       Product <SortIcon field="name" active={sortField} dir={sortDir} />
@@ -444,7 +444,7 @@ export default function ProductsPage() {
                   return (
                     <tr
                       key={p.id}
-                      className="table-row-hover border-b border-border-glass/50 last:border-0 cursor-pointer"
+                      className="table-row-hover border-b border-border-default/50 last:border-0 cursor-pointer"
                       onClick={() => setSelectedProduct(p)}
                     >
                       <td className="py-3.5 px-4">
@@ -468,12 +468,12 @@ export default function ProductsPage() {
                       </td>
                       <td className="py-3.5 px-4 text-text-secondary">{p.turnover_rate}x</td>
                       <td className="py-3.5 px-4 text-text-secondary">${p.total_value.toLocaleString()}</td>
-                      <td className={`py-3.5 px-4 font-medium ${p.days_since_movement > 30 ? 'text-accent-rose' : p.days_since_movement > 14 ? 'text-accent-amber' : 'text-accent-emerald'}`}>
+                      <td className={`py-3.5 px-4 font-medium ${p.days_since_movement > 30 ? 'text-danger' : p.days_since_movement > 14 ? 'text-warning' : 'text-success'}`}>
                         {p.days_since_movement}d
                       </td>
                       <td className="py-3.5 px-4 text-text-muted text-xs">{p.location}</td>
                       <td className="py-3.5 px-4">
-                        <button className="p-1.5 rounded-lg hover:bg-white/5 text-text-muted hover:text-accent-cyan transition-colors">
+                        <button className="p-1.5 rounded-lg hover:bg-gray-100 text-text-muted hover:text-primary transition-colors">
                           <Eye className="w-4 h-4" />
                         </button>
                       </td>
@@ -483,7 +483,7 @@ export default function ProductsPage() {
               </tbody>
             </table>
           </div>
-          <div className="px-4 py-3 border-t border-border-glass flex items-center justify-between">
+          <div className="px-4 py-3 border-t border-border-default flex items-center justify-between">
             <span className="text-text-muted text-xs">Showing {filtered.length} products</span>
             <span className="text-text-muted text-xs">
               Total inventory value: <span className="text-text-primary font-semibold">

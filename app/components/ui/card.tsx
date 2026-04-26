@@ -5,17 +5,17 @@ import React from 'react';
 interface CardProps {
   children: React.ReactNode;
   className?: string;
-  glow?: 'emerald' | 'amber' | 'rose' | 'cyan' | 'violet' | 'none';
+  border?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'none';
   id?: string;
 }
 
-export function Card({ children, className = '', glow = 'none', id }: CardProps) {
-  const glowClass = glow !== 'none' ? `glow-${glow}` : '';
+export function Card({ children, className = '', border = 'none', id }: CardProps) {
+  const borderClass = border !== 'none' ? `border-l-4 border-${border}` : '';
 
   return (
     <div
       id={id}
-      className={`glass-card p-6 ${glowClass} ${className}`}
+      className={`modern-card p-6 ${borderClass} ${className}`}
     >
       {children}
     </div>

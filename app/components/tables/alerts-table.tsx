@@ -17,18 +17,18 @@ interface AlertsTableProps {
 function SeverityIcon({ severity }: { severity: string }) {
   switch (severity) {
     case 'critical':
-      return <AlertCircle className="w-4 h-4 text-accent-rose" />;
+      return <AlertCircle className="w-4 h-4 text-danger" />;
     case 'warning':
-      return <AlertTriangle className="w-4 h-4 text-accent-amber" />;
+      return <AlertTriangle className="w-4 h-4 text-warning" />;
     default:
-      return <Info className="w-4 h-4 text-accent-cyan" />;
+      return <Info className="w-4 h-4 text-primary" />;
   }
 }
 
 function getScoreColor(score: number): string {
-  if (score >= 75) return 'text-accent-emerald';
-  if (score >= 50) return 'text-accent-amber';
-  return 'text-accent-rose';
+  if (score >= 75) return 'text-success';
+  if (score >= 50) return 'text-warning';
+  return 'text-danger';
 }
 
 export function AlertsTable({ alerts, id }: AlertsTableProps) {
@@ -46,7 +46,7 @@ export function AlertsTable({ alerts, id }: AlertsTableProps) {
     <div id={id} className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-border-glass">
+          <tr className="border-b border-border-default">
             <th className="text-left py-3 px-4 text-text-muted font-semibold text-xs uppercase tracking-wider">
               Severity
             </th>
@@ -68,7 +68,7 @@ export function AlertsTable({ alerts, id }: AlertsTableProps) {
           {alerts.map((alert, index) => (
             <tr
               key={`${alert.product_key}-${index}`}
-              className="table-row-hover border-b border-border-glass/50 last:border-0"
+              className="table-row-hover border-b border-border-default/50 last:border-0"
             >
               <td className="py-3.5 px-4">
                 <div className="flex items-center gap-2">
@@ -94,7 +94,7 @@ export function AlertsTable({ alerts, id }: AlertsTableProps) {
                 {alert.health_score.toFixed(1)}
               </td>
               <td className="py-3.5 px-4">
-                <span className="inline-flex px-2 py-0.5 rounded-md bg-surface-hover text-text-secondary text-xs font-medium">
+                <span className="inline-flex px-2 py-0.5 rounded-md bg-surface-elevated text-text-secondary text-xs font-medium">
                   {alert.metric_type}
                 </span>
               </td>
