@@ -27,6 +27,7 @@ import { HealthRadar } from '../components/charts/health-radar';
 import { ProductBarChart } from '../components/charts/product-bar-chart';
 import { TrendChart } from '../components/charts/trend-chart';
 import { AlertsTable } from '../components/tables/alerts-table';
+import { Chatbot } from '../components/chatbot/chatbot';
 
 // Mock 7-day trend data
 const mockTrendData = [
@@ -501,6 +502,14 @@ export default function DashboardPage() {
           <AlertsTable alerts={alerts} id="alerts-table" />
         </Card>
       </section>
+
+      <Chatbot
+        healthScore={overallScore}
+        criticalItems={criticalCount}
+        alertsCount={alerts.length}
+        healthyCount={healthyCount}
+        warningCount={warningCount}
+      />
 
       {/* ── Footer ── */}
       <footer className="text-center py-6 text-text-muted text-xs">

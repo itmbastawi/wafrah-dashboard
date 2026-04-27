@@ -75,3 +75,10 @@ export interface DemandForecast {
   recommendation: 'reorder' | 'reduce' | 'maintain';
   risk_level: 'high' | 'medium' | 'low';
 }
+
+export interface ChatMessage {
+  id: string;
+  role: 'user' | 'bot';
+  content: string;
+  timestamp: Date;
+}
